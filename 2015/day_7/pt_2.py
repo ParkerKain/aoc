@@ -16,8 +16,6 @@ for curr_line in lines:
             except:
                 definitions[element] = None
 
-# print(definitions)
-
 
 def get_val(i: str):
     try:
@@ -33,15 +31,13 @@ def print_non_nulls():
             print(k, v)
 
 
-print_non_nulls()
-
-
 def process():
     for curr_line in lines:
         factors = [x for x in curr_line[:-2] if x in definitions]
         if all([definitions[x] is not None for x in factors]):
             assign_to = curr_line[-1]
-            result = None
+            if definitions[assign_to] is not None:
+                continue
             if len(curr_line) == 3:
                 to_assign = get_val(curr_line[0])
                 definitions[assign_to] = to_assign
@@ -70,7 +66,14 @@ def process():
 
 while definitions["a"] is None:
     process()
-    print_non_nulls()
-
-print_non_nulls()
+    # print_non_nulls()
+to_apply = definitions["a"]
+print(to_apply)
+for k in definitions.keys():
+    definitions[k] = None
+definitions["b"] = to_apply
+assert definitions["a"] is None
+print(definitions)
+while definitions["a"] is None:
+    process()
 print("Final Answer! " + str(definitions["a"]))
